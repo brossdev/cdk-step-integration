@@ -78,17 +78,6 @@ export class CdkStepAslStack extends cdk.Stack {
       }
     );
 
-    const isTransactionDone = new sfn.Choice(this, "IsTransactionDone?")
-      .when(
-        sfn.Condition.stringEquals(
-          "$.TranscriptionJob.TranscriptionJobStatus",
-          "COMPLETED"
-        ),
-        getTranscriptionText
-      )
-      .otherwise(wait20Seconds)
-      .afterwards();
-
     const prepareTranscriptTest = new sfn.Pass(this, "PrepareTranscriptTest", {
       parameters: {
         "transcript.$": "$.filecontent.results.transcripts[0].transcript",
@@ -111,12 +100,25 @@ export class CdkStepAslStack extends cdk.Stack {
       }
     );
 
+    const isTransactionDone = new sfn.Choice(this, "IsTransactionDone?")
+      .when(
+        sfn.Condition.stringEquals(
+          "$.TranscriptionJob.TranscriptionJobStatus",
+          "COMPLETED"
+        ),
+        getTranscriptionText
+          .next(prepareTranscriptTest)
+          .next(startTextTranslation)
+      )
+      .otherwise(wait20Seconds);
+
     const definition = getSampleVideo
       .next(startTranscriptionJob)
+      .next(wait20Seconds)
       .next(checkIfTranscriptionDone)
-      .next(isTransactionDone)
-      .next(prepareTranscriptTest)
-      .next(startTextTranslation);
+      .next(isTransactionDone);
+    //      .next(prepareTranscriptTest)
+    //      .next(startTextTranslation);
 
     new sfn.StateMachine(this, "TransalationStateMachine", {
       definition,
