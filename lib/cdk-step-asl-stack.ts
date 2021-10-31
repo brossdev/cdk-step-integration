@@ -45,7 +45,7 @@ export class CdkStepAslStack extends cdk.Stack {
             time: sfn.WaitTime.duration(cdk.Duration.seconds(20)),
         })
 
-        const checkIfTranscriptionDone = new tasks.CallAwsService(this, "checkIfTranscriptionDone", {
+        const checkIfTranscriptionDone = new tasks.CallAwsService(this, "CheckIfTranscriptionDone", {
             service: 'transcribe',
             action: 'getTranscriptionJob',
             parameters: {
@@ -96,6 +96,7 @@ export class CdkStepAslStack extends cdk.Stack {
 
         new sfn.StateMachine(this, "TransalationStateMachine", {
             definition,
+            tracingEnabled: true,
         })
 
     }
