@@ -39,7 +39,7 @@ export class StateMachineStack extends cdk.Stack {
           "TranscriptionJobName.$": "$$.Execution.Name",
           LanguageCode: "en-US",
           OutputBucketName: bucket.bucketName,
-          OutputKey: "transcribe.json",
+          OutputKey: "output/transcribe.json",
         },
         iamResources: ["*"],
       }
@@ -70,7 +70,7 @@ export class StateMachineStack extends cdk.Stack {
         action: "getObject",
         parameters: {
           Bucket: bucket.bucketName,
-          Key: "transcribe.json",
+          Key: "output/transcribe.json",
         },
         resultSelector: {
           "filecontent.$": "States.StringToJson($.Body)",
