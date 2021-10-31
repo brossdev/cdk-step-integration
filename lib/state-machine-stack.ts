@@ -23,7 +23,7 @@ export class StateMachineStack extends cdk.Stack {
         CopySource: `${bucket.bucketName}/raw/${videoKey}`,
       },
       iamResources: [bucket.arnForObjects("*")],
-      iamAction: 's3:*'
+      iamAction: "s3:*",
     });
 
     const startTranscriptionJob = new tasks.CallAwsService(
