@@ -9,5 +9,5 @@ const app = new cdk.App();
 const videoBucketStack = new VideoBucketStack(app, "VideoBucketStack", {});
 new StateMachineStack(app, "StateMachineStack", {
   bucket: videoBucketStack.bucket,
-  videoKey: "test2.mov",
+  videoKey: "test.mov",
 });
