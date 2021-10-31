@@ -2,9 +2,14 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { CdkStepAslStack } from '../lib/cdk-step-asl-stack';
+import { VideoBucketStack } from '../lib/s3-video-stack';
 
 const app = new cdk.App();
+
+const videoBucketStack = new VideoBucketStack(app, "VideoBucketStack", {})
 new CdkStepAslStack(app, 'CdkStepAslStack', {
+    bucket: videoBucketStack.bucket,
+    videoKey: "test.json"
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
