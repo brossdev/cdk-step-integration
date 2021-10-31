@@ -8,7 +8,7 @@ interface StateMachineProps extends cdk.StackProps {
   videoKey: string;
 }
 
-export class CdkStepAslStack extends cdk.Stack {
+export class StateMachineStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: StateMachineProps) {
     super(scope, id, props);
 
@@ -117,8 +117,6 @@ export class CdkStepAslStack extends cdk.Stack {
       .next(wait20Seconds)
       .next(checkIfTranscriptionDone)
       .next(isTransactionDone);
-    //      .next(prepareTranscriptTest)
-    //      .next(startTextTranslation);
 
     new sfn.StateMachine(this, "TransalationStateMachine", {
       definition,
