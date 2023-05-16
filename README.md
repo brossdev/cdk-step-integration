@@ -1,4 +1,4 @@
-# CDK version of the FooBar Serverless video demonstrating the recently announced Sevice integrations with Step Functions
+# CDK version of the FooBar Serverless video demonstrating the recently announced Service integrations with Step Functions
 
 ## Introduction
 
